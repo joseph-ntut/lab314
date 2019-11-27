@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ntut-mit/catkin_ws/devel_isolated/wiimote/setup.sh

@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_stage
+
+Name: autolabor_simulation_stage
+Description: Description of autolabor_simulation_stage
+Version: 0.0.1
+Cflags: -I/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_stage/include -I/home/ntut-mit/catkin_ws/src/autolabor/src/simulation/autolabor_simulation_stage/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_stage/lib 
+Requires: 

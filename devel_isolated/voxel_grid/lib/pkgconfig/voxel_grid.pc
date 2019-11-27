@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/voxel_grid
+
+Name: voxel_grid
+Description: Description of voxel_grid
+Version: 1.16.2
+Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/navigation/voxel_grid/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/voxel_grid/lib -lvoxel_grid
+Requires: roscpp

@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/marvelmind
+
+Name: marvelmind
+Description: Description of marvelmind
+Version: 0.0.1
+Cflags: -I/home/ntut-mit/catkin_ws/devel_isolated/marvelmind/include -I/home/ntut-mit/catkin_ws/src/autolabor/src/driver/location/marvelmind/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/marvelmind/lib 
+Requires: 

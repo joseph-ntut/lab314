@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: nav_core
+Description: Description of nav_core
+Version: 1.16.2
+Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
+Requires: std_msgs geometry_msgs tf2_ros costmap_2d

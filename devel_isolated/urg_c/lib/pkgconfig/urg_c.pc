@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/urg_c
+
+Name: urg_c
+Description: Description of urg_c
+Version: 1.0.405
+Cflags: -I/home/ntut-mit/catkin_ws/src/urg_c/current/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib -lliburg_c
+Requires: 

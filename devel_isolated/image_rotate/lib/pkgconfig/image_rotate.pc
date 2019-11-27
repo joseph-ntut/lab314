@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/image_rotate
+
+Name: image_rotate
+Description: Description of image_rotate
+Version: 1.12.23
+Cflags: -I/home/ntut-mit/catkin_ws/devel_isolated/image_rotate/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/image_rotate/lib 
+Requires: 

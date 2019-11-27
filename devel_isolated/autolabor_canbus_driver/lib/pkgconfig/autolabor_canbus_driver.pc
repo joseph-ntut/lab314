@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_canbus_driver
+
+Name: autolabor_canbus_driver
+Description: Description of autolabor_canbus_driver
+Version: 0.0.0
+Cflags: -I/home/ntut-mit/catkin_ws/devel_isolated/autolabor_canbus_driver/include -I/home/ntut-mit/catkin_ws/src/autolabor/src/driver/car/autolabor_canbus_driver/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_canbus_driver/lib 
+Requires: roscpp tf std_msgs geometry_msgs nav_msgs message_runtime

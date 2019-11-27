@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: spacenav_node
+Description: Description of spacenav_node
+Version: 1.11.0
+Cflags: 
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
+Requires: roscpp geometry_msgs sensor_msgs

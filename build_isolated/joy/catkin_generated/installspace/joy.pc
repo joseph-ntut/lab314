@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: joy
+Description: Description of joy
+Version: 1.11.0
+Cflags: 
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
+Requires: roscpp diagnostic_updater sensor_msgs

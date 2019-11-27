@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_base
+
+Name: autolabor_simulation_base
+Description: Description of autolabor_simulation_base
+Version: 0.0.1
+Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/simulation/autolabor_simulation_base/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_base/lib 
+Requires: 

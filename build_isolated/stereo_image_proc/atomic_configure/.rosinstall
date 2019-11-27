@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ntut-mit/catkin_ws/devel_isolated/stereo_image_proc/setup.sh

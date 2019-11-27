@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_test_launch
+
+Name: autolabor_test_launch
+Description: Description of autolabor_test_launch
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_test_launch/lib 
+Requires: 

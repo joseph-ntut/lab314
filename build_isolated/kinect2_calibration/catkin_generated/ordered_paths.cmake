@@ -1,0 +1,1 @@
+set(ORDERED_PATHS "/home/ntut-mit/catkin_ws/devel_isolated/kinect2_registration/lib;/opt/ros/melodic/lib")

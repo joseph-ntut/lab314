@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/move_slow_and_clear
+
+Name: move_slow_and_clear
+Description: Description of move_slow_and_clear
+Version: 1.16.2
+Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/navigation/move_slow_and_clear/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/move_slow_and_clear/lib -lmove_slow_and_clear
+Requires: geometry_msgs nav_core pluginlib roscpp

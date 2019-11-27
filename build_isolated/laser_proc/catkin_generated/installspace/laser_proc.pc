@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: laser_proc
+Description: Description of laser_proc
+Version: 0.1.5
+Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib -llaser_proc_library -llaser_publisher -llaser_transport -llaser_proc_ROS -lLaserProcNodelet
+Requires: roscpp sensor_msgs rosconsole nodelet

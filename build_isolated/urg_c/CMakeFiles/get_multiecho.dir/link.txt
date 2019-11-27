@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/get_multiecho.dir/current/samples/get_multiecho.c.o  -o /home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib/urg_c/get_multiecho -Wl,-rpath,/home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib: /home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib/libopen_urg_sensor.so /home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib/libliburg_c.so -lrt -lm 

@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: autolabor_pro1_driver
+Description: Description of autolabor_pro1_driver
+Version: 0.1.0
+Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
+Requires: roscpp tf message_runtime

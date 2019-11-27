@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_lidar
+
+Name: autolabor_simulation_lidar
+Description: Description of autolabor_simulation_lidar
+Version: 0.0.1
+Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/simulation/autolabor_simulation_lidar/include
+Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_lidar/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/ntut-mit/catkin_ws/install_isolated
+
+Name: kinect2_bridge
+Description: Description of kinect2_bridge
+Version: 0.0.1
+Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
+Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
+Requires: kinect2_registration
