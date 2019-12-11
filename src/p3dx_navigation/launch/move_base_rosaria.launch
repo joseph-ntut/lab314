@@ -1,0 +1,51 @@
+
+<launch>
+
+  <!-- Run the map server -->
+   
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find p3dx_navigation)/maps/lastchance7.yaml"/>
+
+    
+    <!--include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" /-->
+
+    <!-- Robot_Localization -->
+    
+    <!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find p3dx_navigation)/params/ekf_params.yaml" />
+    </node-->
+
+
+  <!--- Run AMCL -->
+  <include file="$(find p3dx_navigation)/launch/amcl_diff_rosaria.launch" />
+  
+  <!--node pkg="tf" type="static_transform_publisher" name="map2tag" args="0 0 0 0 0 0 /map /odom 100"/-->
+  
+
+  <!--- Run move_base with parameters -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <remap from="/odom" to="/pose" /> 
+    <!--remap from="cmd_vel" to="cmd_vel" /-->
+    <remap from="cmd_vel" to="/yocs_cmd_vel_mux/input/navigation" />
+    <rosparam file="$(find p3dx_navigation)/config/p3dx_rosaria/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find p3dx_navigation)/config/p3dx_rosaria/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find p3dx_navigation)/config/p3dx_rosaria/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find p3dx_navigation)/config/p3dx_rosaria/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find p3dx_navigation)/config/p3dx_rosaria/move_base_params.yaml" command="load" />
+
+    <!--rosparam param="recovery_behaviors">
+                [{name: rotate_recovery, type: rotate_recovery/RotateRecovery},
+                {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery},
+                {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]
+    </rosparam-->
+
+    <!--param name="base_global_planner" type="string" value="navfn/NavfnROS" /-->
+    <!--param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/--> 
+
+
+    
+
+  </node>
+
+</launch>
