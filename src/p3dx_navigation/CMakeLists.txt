@@ -195,13 +195,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(sendPose src/sendPose.cpp)
-target_link_libraries(sendPose ${catkin_LIBRARIES})
-
-add_executable(odom_tf src/odom_tf.cpp)
-target_link_libraries(odom_tf ${catkin_LIBRARIES})
-add_dependencies(odom_tf p3dx_navigation_generate_messages_cpp)
-
 add_executable(Neopixel src/Neopixel.cpp)
 target_link_libraries(Neopixel ${catkin_LIBRARIES})
 add_dependencies(Neopixel p3dx_navigation_generate_messages_cpp)
