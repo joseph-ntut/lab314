@@ -47,9 +47,9 @@
     <include file="$(find demo_pioneer)demo_pioneer/launch/pioneer-teleop.launch"/>
     <include file="$(find yujin_ocs)yocs_cmd_vel_mux/launch/standalone.launch"/>
     <!--turn on light-->
-    <node pkg="p3dx_navigation" type="Neopixel">
-    </node>
 
+    <node pkg="p3dx_navigation" type="Neopixel" name="light_node"/>
+    <node pkg="rosserial_python" type="serial_node.py" name="connect_ardunio" args= "/dev/ttyACM0"/>
 
 
 
