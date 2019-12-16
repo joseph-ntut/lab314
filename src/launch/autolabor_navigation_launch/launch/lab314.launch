@@ -41,12 +41,15 @@
         <arg name="laserscan_resolution" default="0.007" />
     <include />
     <node pkg="tf" type="static_transform_publisher" name="base_link_pointcloud2" args=" 0 0 1.5 0 0 0 base_link velodyne 100"/>
-    <remap from="/velodyne_points" to="/scan"/>
+    <!--remap from="/velodyne_points" to="/scan"/-->
 
     <!--joy-->
-
-
+    <include file="$(find demo_pioneer)demo_pioneer/launch/pioneer-teleop.launch"/>
+    <include file="$(find yujin_ocs)yocs_cmd_vel_mux/launch/standalone.launch"/>
     <!--turn on light-->
+    <node pkg="p3dx_navigation" type="Neopixel">
+    </node>
+
 
 
 
