@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: path_server
-Description: Description of path_server
-Version: 0.0.0
-Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
-Requires: 

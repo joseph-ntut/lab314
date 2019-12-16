@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: stereo_image_proc
-Description: Description of stereo_image_proc
-Version: 1.12.23
-Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib -lstereo_image_proc
-Requires: image_geometry image_proc sensor_msgs stereo_msgs

@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC   -shared -Wl,-soname,libopen_urg_sensor.so -o /home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib/libopen_urg_sensor.so CMakeFiles/open_urg_sensor.dir/current/samples/open_urg_sensor.c.o -Wl,-rpath,/home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib: -lm /home/ntut-mit/catkin_ws/devel_isolated/urg_c/lib/libliburg_c.so -lrt -lm 

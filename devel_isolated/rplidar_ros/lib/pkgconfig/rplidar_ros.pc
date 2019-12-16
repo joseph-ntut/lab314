@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/rplidar_ros
-
-Name: rplidar_ros
-Description: Description of rplidar_ros
-Version: 1.5.7
-Cflags: 
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/rplidar_ros/lib 
-Requires: 

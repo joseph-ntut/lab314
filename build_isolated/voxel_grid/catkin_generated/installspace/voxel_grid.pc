@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: voxel_grid
-Description: Description of voxel_grid
-Version: 1.16.2
-Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib -lvoxel_grid
-Requires: roscpp

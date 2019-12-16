@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: wiimote
-Description: Description of wiimote
-Version: 1.11.0
-Cflags: -I/home/ntut-mit/catkin_ws/install_isolated/include
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
-Requires: geometry_msgs sensor_msgs std_msgs std_srvs rospy roscpp roslib genmsg

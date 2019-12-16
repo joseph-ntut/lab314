@@ -1,1 +1,0 @@
-set(ORDERED_PATHS "/home/ntut-mit/catkin_ws/devel_isolated/image_proc/lib;/opt/ros/melodic/lib")

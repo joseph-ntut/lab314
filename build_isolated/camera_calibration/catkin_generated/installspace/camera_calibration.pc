@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: camera_calibration
-Description: Description of camera_calibration
-Version: 1.12.23
-Cflags: 
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
-Requires: 

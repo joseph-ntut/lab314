@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/install_isolated
-
-Name: simulation_launch
-Description: Description of simulation_launch
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/ntut-mit/catkin_ws/install_isolated/lib 
-Requires: 

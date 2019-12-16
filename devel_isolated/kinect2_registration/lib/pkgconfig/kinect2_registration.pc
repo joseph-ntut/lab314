@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/kinect2_registration
-
-Name: kinect2_registration
-Description: Description of kinect2_registration
-Version: 0.0.1
-Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/driver/depth_camera/iai_kinect2-master/kinect2_registration/include -I/usr/include
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/kinect2_registration/lib -lkinect2_registration /usr/lib/x86_64-linux-gnu/libOpenCL.so
-Requires: 

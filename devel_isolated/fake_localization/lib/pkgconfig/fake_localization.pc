@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/fake_localization
-
-Name: fake_localization
-Description: Description of fake_localization
-Version: 1.16.2
-Cflags: 
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/fake_localization/lib 
-Requires: geometry_msgs nav_msgs roscpp rospy

@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/path_rviz_plugin
-
-Name: path_rviz_plugin
-Description: Description of path_rviz_plugin
-Version: 0.0.0
-Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/navigation/path_rviz_plugin/include
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/path_rviz_plugin/lib 
-Requires: 

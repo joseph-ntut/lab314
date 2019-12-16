@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_location
-
-Name: autolabor_simulation_location
-Description: Description of autolabor_simulation_location
-Version: 0.0.0
-Cflags: -I/home/ntut-mit/catkin_ws/src/autolabor/src/simulation/autolabor_simulation_location/include
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/autolabor_simulation_location/lib 
-Requires: 

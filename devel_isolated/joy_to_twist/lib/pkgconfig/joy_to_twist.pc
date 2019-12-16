@@ -1,8 +1,0 @@
-prefix=/home/ntut-mit/catkin_ws/devel_isolated/joy_to_twist
-
-Name: joy_to_twist
-Description: Description of joy_to_twist
-Version: 0.1.0
-Cflags: 
-Libs: -L/home/ntut-mit/catkin_ws/devel_isolated/joy_to_twist/lib 
-Requires: 
