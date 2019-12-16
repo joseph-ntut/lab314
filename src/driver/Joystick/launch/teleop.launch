@@ -1,0 +1,23 @@
+<!-- -*- xml -*- -->
+<launch>
+  <!-- 
+
+    Allows to teleoperate a real Pioneer mobile robot using
+    a Logitech wireless F710 gamepad.
+
+  -->
+
+  <!-- Launch the node that allows to control the gamepad -->
+  <!-- % rosrun joy joy_node _dev:=/dev/input/js0 _deadzone:=0.12 --> 
+  <node respawn="true" pkg="joy" type="joy_node" name="gamepad" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+  </node>
+
+  <!-- Joystick to pioneer robot -->
+  <!-- % rosrun demo_pioneer demo_pioneer_joy2twist_pioneer_node -->
+  <node name="demo_pioneer_joy2twist_pioneer_node" pkg="Joystick" type="demo_pioneer_joy2twist_pioneer_node">
+	<!--Autolabor/--> 
+	<remap from="/cmd_vel" to="/yocs_cmd_vel_mux/input/joystick" />
+  </node>
+</launch>

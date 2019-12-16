@@ -1,0 +1,78 @@
+<launch>
+    <arg name="model" />
+    <arg name="gui" default="false" />
+
+    <param name="robot_description" textfile="$(find autolabor_description)/urdf/autolabor_pro1.urdf" />
+    <param name="use_gui" value="$(arg gui)" />
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_navigation_launch)/map/test.pcd" output="screen"/>
+
+    <!-- autolabor launch -->
+    <node name="autolabor_driver" pkg="autolabor_pro1_driver" type="autolabor_pro1_driver" output="screen">
+        <remap from="/wheel_odom" to="/odom"/>
+        <param name="port_name" value="/dev/autolabor_pro1" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_frame" value="base_link" />
+
+        <param name="baud_rate" value="115200" />
+        <param name="control_rate" value="10" />
+        <param name="sensor_rate" value="5" />
+
+        <param name="reduction_ratio" value="1.0" />
+        <param name="encoder_resolution" value="1600.0"/>
+
+        <param name="wheel_diameter" value="0.25" />
+        <param name="model_param_cw" value="0.80" />
+	<param name="model_param_acw" value="0.80" />        
+        <param name="pid_rate" value="50.0" />
+        <param name="maximum_encoding" value="32.0" />
+        <param name="publish_tf" value="false" />
+    </node>
+
+    <!--velodyne launch-->
+    <include file="$(find velodyne)/velodyne_pointcloud/launch/VLP16_points.launch"/>
+        <arg name="frame_id" default="velodyne" />
+        <arg name="device_ip" default="" />
+        <arg name="manager" default="$(arg frame_id)_nodelet_manager" />
+        <arg name="max_range" default="100.0" />
+        <arg name="min_range" default="0.4" />
+        <arg name="rpm" default="600.0" />
+        <arg name="gps_time" default="false" />
+        <arg name="laserscan_resolution" default="0.007" />
+    <include />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_pointcloud2" args=" 0 0 1.5 0 0 0 base_link velodyne 100"/>
+    <!--remap from="/velodyne_points" to="/scan"/-->
+
+    <!--joy-->
+    <include file="$(find demo_pioneer)demo_pioneer/launch/pioneer-teleop.launch"/>
+    <include file="$(find yujin_ocs)yocs_cmd_vel_mux/launch/standalone.launch"/>
+    <!--turn on light-->
+    <node pkg="p3dx_navigation" type="Neopixel">
+    </node>
+
+
+
+
+    <!-- cartographer localization -->
+   <node name="cartographer_node" pkg="cartographer_ros"
+       type="cartographer_node" args="
+           -configuration_directory $(find cartographer_ros)/configuration_files
+           -configuration_basename one_laser_navigation.lua
+           -load_state_filename $(find autolabor_navigation_launch)/map/map.pbstream"
+       output="screen">
+     </node>
+     <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+     <!-- plan path -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/move_base_params.yaml" command="load" />
+        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_costmap_params.yaml" command="load" ns="global_costmap"/>
+        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/local_costmap_params.yaml" command="load" ns="local_costmap"/>
+        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
+        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
+    </node>
+    <!--launch rviz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/navigation.rviz" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+</launch>
