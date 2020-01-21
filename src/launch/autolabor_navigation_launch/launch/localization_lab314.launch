@@ -5,7 +5,7 @@
     <param name="robot_description" textfile="$(find autolabor_description)/urdf/autolabor_pro1.urdf" />
 
     <param name="use_gui" value="$(arg gui)" />
-    <arg name="use_gnss" default="0" />
+    <arg name="use_gnss" default="false" />
     <arg name="use_imu" default="false" />
     <arg name="use_odom" default="false" />
     <arg name="imu_upside_down" default="false" />
@@ -15,7 +15,7 @@
     <arg name="get_height" default="false" />
     <arg name="use_local_transform" default="false" />
     <arg name="sync" default="false" />
-    <arg name="imu_topic" default="/xsens_imu_odom/imu/data" />
+    <arg name="imu_topic" default="false" />
     <arg name="use_voxel_grid_filter" default="false" />
 
     <rosparam>
@@ -28,6 +28,15 @@
       tf_yaw: 0
     </rosparam>
      <!-- ndt localization -->
+    
+
+    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
+        args="$(env HOME)/map/test.pcd">
+    <param name="frame_id" value="map" />
+    <param name="interval" value="0.5" /> 
+    <remap from="cloud_pcd" to="points_map" />
+    </node>
+    
     <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
       <param name="use_gnss" value="$(arg use_gnss)" />
       <param name="use_imu" value="$(arg use_imu)" />
@@ -42,14 +51,6 @@
       <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
       <remap from="odom_pose" to="odom" />
     </node>
-
-    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
-        args="$(env HOME)/map/test.pcd">
-    <param name="frame_id" value="world" />
-    <param name="interval" value="0.5" /> 
-    <remap from="cloud_pcd" to="points_map" />
-    </node>
-    
 
     <!--node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">
       <remap from="trajectory" to="autolabor_odom" />
@@ -68,9 +69,12 @@
         <arg name="rpm" default="600.0" />
         <arg name="gps_time" default="false" />
         <arg name="laserscan_resolution" default="0.007" />
+        <remap from="velodyne_points" to="points_raw"/>
     </include -->
-    <node pkg="tf" type="static_transform_publisher" name="base_link_pointcloud2" args=" 0 0 1.5 0 0 0 base_link velodyne 100"/>
-    <!--remap from="/velodyne_points" to="/scan"/-->
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_velodyne" args=" 0 0 1.5 0 0 0 base_link velodyne 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 100"/>
+
     
      <!-- plan path -->
     <!--node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -83,5 +87,39 @@
     <!--launch rviz-->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" />
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+    <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input"  to="points_raw" />
+      <remap from="~output" to="filtered_points" />
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: -10
+        filter_limit_max: 10
+        filter_limit_negative: False
+        leaf_size: 0.5
+      </rosparam>
+    </node>
+
+    <node pkg="rostopic" type="rostopic" name="ndt_config"
+    args="pub -r 1 /config/ndt autoware_msgs/ConfigNDT
+    {'header: {
+      seq: 0,
+      stamp: {secs: 0, nsecs: 0},
+      frame_id: 'config'},
+    x: 0,
+    y: 0,
+    z: 0,
+    roll: 0,
+    pitch: 0,
+    yaw: 0,
+    use_predict_pose: false,
+    error_threshold: 1,
+    resolution: 1,
+    step_size: 0.1,
+    trans_epsilon: 0.01,
+    max_iterations: 30
+    '} "/>
+
 </launch>
