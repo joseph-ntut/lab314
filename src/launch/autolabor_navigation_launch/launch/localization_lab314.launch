@@ -27,16 +27,16 @@
       tf_pitch: 0
       tf_yaw: 0
     </rosparam>
-     <!-- ndt localization -->
-    
 
-    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
+    <!--pcd load -->
+    <!--node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
         args="$(env HOME)/map/test.pcd">
     <param name="frame_id" value="map" />
     <param name="interval" value="0.5" /> 
     <remap from="cloud_pcd" to="points_map" />
-    </node>
-    
+    </node-->
+
+    <!--ndt matching-->
     <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
       <param name="use_gnss" value="$(arg use_gnss)" />
       <param name="use_imu" value="$(arg use_imu)" />
@@ -76,16 +76,8 @@
     <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 100"/>
 
     
-     <!-- plan path -->
-    <!--node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/move_base_params.yaml" command="load" />
-        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_costmap_params.yaml" command="load" ns="global_costmap"/>
-        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/local_costmap_params.yaml" command="load" ns="local_costmap"/>
-        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
-        <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
-    </node-->
-    <!--launch rviz-->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" />
+    
+   
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
@@ -101,7 +93,7 @@
         leaf_size: 0.5
       </rosparam>
     </node>
-
+    <!--give ndt matching real time location-->
     <node pkg="rostopic" type="rostopic" name="ndt_config"
     args="pub -r 1 /config/ndt autoware_msgs/ConfigNDT
     {'header: {
