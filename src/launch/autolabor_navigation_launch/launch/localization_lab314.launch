@@ -28,14 +28,6 @@
       tf_yaw: 0
     </rosparam>
 
-    <!--pcd load -->
-    <!--node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
-        args="$(env HOME)/map/test.pcd">
-    <param name="frame_id" value="map" />
-    <param name="interval" value="0.5" /> 
-    <remap from="cloud_pcd" to="points_map" />
-    </node-->
-
     <!--ndt matching-->
     <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
       <param name="use_gnss" value="$(arg use_gnss)" />
@@ -51,32 +43,10 @@
       <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
       <remap from="odom_pose" to="odom" />
     </node>
-
-    <!--node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">
-      <remap from="trajectory" to="autolabor_odom" />
-      <param name="target_frame_name" type="string" value="/map" />
-      <param name="source_frame_name" type="string" value="/base_link" />
-      <param name="trajectory_update_rate" value="10" />
-      <param name="trajectory_publish_rate" value="10" />
-    </node-->
-   
-    <!--velodyne launch-->
-    <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
-        <arg name="frame_id" default="velodyne" />
-        <arg name="device_ip" default="" />
-        <arg name="max_range" default="100.0" />
-        <arg name="min_range" default="0.4" />
-        <arg name="rpm" default="600.0" />
-        <arg name="gps_time" default="false" />
-        <arg name="laserscan_resolution" default="0.007" />
-        <remap from="velodyne_points" to="points_raw"/>
-    </include -->
+  
 
     <node pkg="tf" type="static_transform_publisher" name="base_link_velodyne" args=" 0 0 1.5 0 0 0 base_link velodyne 100"/>
     <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 100"/>
-
-    
-    
    
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

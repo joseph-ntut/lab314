@@ -19,12 +19,19 @@
       </node>
   
     </group>
+
+      <!--velodyne launch-->
+    <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="frame_id" default="velodyne" />
+        <arg name="device_ip" default="" />
+        <arg name="max_range" default="100.0" />
+        <arg name="min_range" default="0.4" />
+        <arg name="rpm" default="600.0" />
+        <arg name="gps_time" default="false" />
+        <arg name="laserscan_resolution" default="0.007" />
+    </include -->
   
-    <!--node pkg="pev_map_server" type="pcd_map_loader" name="pcd_map_loader_node" output="screen">
-      <param name="config_file" type="str" value="$(arg map_file)" />
-      <remap from="map_cloud" to="points_map" />
-    </node-->
-  
+ 
     <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
        args="$(env HOME)/map/test.pcd">
           <param name="frame_id" value="map" />
@@ -34,10 +41,18 @@
 
     <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
     </include>
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/move_base_params.yaml" command="load" />
+      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_costmap_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/local_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
+      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
+  </node>
   
      <!--launch rviz-->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" />
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" /-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/navigation.rviz" />
 
      
-  
   </launch>

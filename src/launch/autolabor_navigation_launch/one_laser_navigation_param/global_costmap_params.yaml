@@ -11,7 +11,7 @@ robot_base_frame: base_link
 footprint: [[0.175, 0.15], [0.175, -0.15], [-0.175, -0.15], [-0.175, 0.15]]  # if the robot is not circular
 
 # used for obstacle_layer, 3D->voxel 2D->other
-map_type: costmap
+map_type: voxel
 
 # Specifies the delay in transform (tf) data that is tolerable in seconds. This parameter serves as a safeguard to losing a link in the tf tree while still allowing an amount of latency the user is comfortable with to exist in the system. For example, a transform being 0.2 seconds out-of-date may be tolerable, but a transform being 8 seconds out of date is not. If the tf transform between the coordinate frames specified by the global_frame and robot_base_frame parameters is transform_tolerance seconds older than ros::Time::now(), then the navigation stack will stop the robot.(double, default: 0.2)
 transform_tolerance: 0.5
@@ -59,11 +59,11 @@ static_layer:
 # The value for which a cost should be considered unknown when reading in a map from the map server. If the costmap is not tracking unknown space, costs of this value will be considered occupied. A value of zero also results in this parameter being unused. (int, default: -1)
   unknown_cost_value: -1
 
-# The threshold value at which to consider a cost lethal when reading in a map from the map server.(int, default: 100)
+# The threshold value at which to consider a cost lethal when rseading in a map from the map server.(int, default: 100)
   lethal_cost_threshold: 50
 
 # The topic that the costmap subscribes to for the static map. This parameter is useful when you have multiple costmap instances within a single node that you want to use different static maps. (string, default: "map")
-  map_topic: map
+  map_topic: points_map
 
 # Only subscribe to the first message on the map topic, ignoring all subsequent messages (bool, default: false)
   first_map_only: false
@@ -109,11 +109,11 @@ obstacle_layer:
 # If true, the robot footprint will clear (mark as free) the space in which it travels. (bool, default: true)
   footprint_clearing_enabled: true
 # A list of observation source names separated by spaces. This defines each of the <source_name> namespaces defined below. (string, default: "")
-  observation_sources: scan
+  observation_sources: bump
   
-  scan:
+  bump:
 # The topic on which sensor data comes in for this source. Defaults to the name of the source. (string, default: source_name)
-    topic: scan
+    topic: points_raw
 # The frame of the origin of the sensor. Leave empty to attempt to read the frame from sensor data. The frame can be read from both sensor_msgs/LaserScan, sensor_msgs/PointCloud, and sensor_msgs/PointCloud2 messages. (string, default: "")
     sensor_frame: "velodyne"
 # How long to keep each sensor reading in seconds. A value of 0.0 will only keep the most recent reading. (double, default: 0.0)

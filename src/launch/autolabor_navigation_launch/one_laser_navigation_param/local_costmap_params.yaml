@@ -11,7 +11,7 @@ robot_base_frame: base_link
 footprint: [[0.18, 0.15], [0.18, -0.15], [-0.18, -0.15],[-0.18, 0.15]]  # if the robot is not circular
 
 # used for obstacle_layer, 3D->voxel 2D->other
-map_type: costmap
+map_type: voxel
 
 # Specifies the delay in transform (tf) data that is tolerable in seconds. This parameter serves as a safeguard to losing a link in the tf tree while still allowing an amount of latency the user is comfortable with to exist in the system. For example, a transform being 0.2 seconds out-of-date may be tolerable, but a transform being 8 seconds out of date is not. If the tf transform between the coordinate frames specified by the global_frame and robot_base_frame parameters is transform_tolerance seconds older than ros::Time::now(), then the navigation stack will stop the robot.(double, default: 0.2)
 transform_tolerance: 0.5
@@ -21,7 +21,6 @@ update_frequency: 5.0
 
 # The frequency in Hz for the map to be publish display information.(double, default: 0.0)
 publish_frequency: 2.0
-
 # Whether or not to use a rolling window version of the costmap. If the static_map parameter is set to true, this parameter must be set to false. (bool, default: false)
 rolling_window: true
 static_map: false
@@ -78,11 +77,11 @@ obstacle_layer:
 # If true, the robot footprint will clear (mark as free) the space in which it travels. (bool, default: true)
   footprint_clearing_enabled: true
 # A list of observation source names separated by spaces. This defines each of the <source_name> namespaces defined below. (string, default: "")
-  observation_sources: scan
+  observation_sources: bump
   
-  scan:
+  bump:
 # The topic on which sensor data comes in for this source. Defaults to the name of the source. (string, default: source_name)
-    topic: scan
+    topic: points_raw
 # The frame of the origin of the sensor. Leave empty to attempt to read the frame from sensor data. The frame can be read from both sensor_msgs/LaserScan, sensor_msgs/PointCloud, and sensor_msgs/PointCloud2 messages. (string, default: "")
     sensor_frame: "velodyne"
 # How long to keep each sensor reading in seconds. A value of 0.0 will only keep the most recent reading. (double, default: 0.0)
