@@ -38,14 +38,23 @@
           <param name="interval" value="0.5" /> 
           <remap from="cloud_pcd" to="points_map" />
     </node>
-
+    <!--ndt matching-->
     <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
+      </include>
+
+    <!--pointcloud to laserscan -->
+    <include file="$(find autolabor_navigation_launch)/launch/pointcloud2_to_laserscan.launch">
     </include>
+
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/move_base_params.yaml" command="load" />
-      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_costmap_params.yaml" command="load" ns="global_costmap"/>
-      <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/local_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <!--costmap-->
+      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_costmap_params.yaml" command="load" />
+      <!--path plan-->
       <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
       <rosparam file="$(find autolabor_navigation_launch)/one_laser_navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
   </node>

@@ -1,0 +1,27 @@
+<launch>
+  <arg name="debug"            default="true" />
+  <arg name="bag_file"         default="$(env HOME)/bag/localizer_test.bag" />
+  
+  <group if="$(arg debug)">
+    <param name="use_sim_time" value="true"/>
+      <!-- Static transtorm -->
+       
+    <node pkg="rosbag" type="play" name="rosbag_play_node"
+          args="--clock $(arg bag_file)" >
+    </node>
+  
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">
+        <remap from="trajectory" to="autolabor_odom" />
+        <param name="target_frame_name" type="string" value="/map" />
+        <param name="source_frame_name" type="string" value="/base_link" />
+        <param name="trajectory_update_rate" value="10" />
+        <param name="trajectory_publish_rate" value="10" />
+    </node>
+  </group> 
+
+  <include file="$(find autolabor_navigation_launch)/launch/mapping_lab314.launch">
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/ndt_mapping.rviz" />
+
+</launch>
