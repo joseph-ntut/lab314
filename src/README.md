@@ -3,8 +3,6 @@ use this command to run before cmake
     ```
     bash dependence.sh
     ```
-*********************************************************************
-    classification files follow the package name
 
 
 
