@@ -1,9 +1,32 @@
 <robot name="autolabor_description">
+
+  <link name="velodyne">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <cylinder length="0.07" radius="0.05" />
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+
+
+  <link name="imu_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <cylinder length="0.02" radius="0.03" />
+      </geometry>
+      <material name="orange" />
+    </visual>
+  </link>
+
+
   <link name="base_link">
     <visual>
       <origin
-        xyz="-0.363 0.3085 0.2883"
-        rpy="0. 1.57 -1.57" />
+      xyz="-0.363 0.3085 0.2883"
+      rpy="0. 1.57 -1.57" />
       <geometry>
         <mesh
           filename="package://autolabor_description/meshes/autolabor_pro1.stl" scale="0.001 0.001 0.001"/>
@@ -15,4 +38,21 @@
       </material>
     </visual>
   </link>
+
+  <joint name="imu_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 1.4" rpy="0 0 0" />
+  </joint>
+
+  <joint name="velodyne_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="velodyne" />
+    <origin xyz="0 0 1.5" rpy="0 0 0" />
+  </joint>
+
+
+
+
+
 </robot>

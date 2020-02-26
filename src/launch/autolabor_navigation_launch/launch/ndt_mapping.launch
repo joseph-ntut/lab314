@@ -1,6 +1,6 @@
 <launch>
   <arg name="debug"            default="true" />
-  <arg name="bag_file"         default="$(env HOME)/bag/localizer_test.bag" />
+  <arg name="bag_file"         default="$(env HOME)/bag/lidar_imu.bag" />
   
   <group if="$(arg debug)">
     <param name="use_sim_time" value="true"/>

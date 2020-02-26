@@ -1,6 +1,9 @@
 <launch>
     <arg name="debug"            default="true" />
     <arg name="bag_file"         default="$(env HOME)/bag/localizer_test.bag" />
+    <arg name="map_file_2d"      default="$(find autolabor_navigation_launch)/map/demo.yaml"/>
+    <arg name="map_file_3d"      default="$(find autolabor_navigation_launch)/map/demo.pcd"/>
+
   
     <group if="$(arg debug)">
       <param name="use_sim_time" value="true"/>
@@ -9,7 +12,7 @@
       <node pkg="rosbag" type="play" name="rosbag_play_node"
           args="--clock $(arg bag_file)" >
       </node>
-  
+    <!--hector server traking path-->
       <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">
         <remap from="trajectory" to="autolabor_odom" />
         <param name="target_frame_name" type="string" value="/map" />
@@ -20,7 +23,7 @@
   
     </group>
 
-      <!--velodyne launch-->
+    <!--velodyne launch-->
     <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
         <arg name="frame_id" default="velodyne" />
         <arg name="device_ip" default="" />
@@ -30,23 +33,25 @@
         <arg name="gps_time" default="false" />
         <arg name="laserscan_resolution" default="0.007" />
     </include -->
-  
- 
-    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
-       args="$(env HOME)/map/test.pcd">
-          <param name="frame_id" value="map" />
+    <!--pcl ros 3d map-->
+    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="points_map_publish" output="screen"
+       args="$(arg map_file_3d)">
+          <param name="frame_id" value="world" />
           <param name="interval" value="0.5" /> 
           <remap from="cloud_pcd" to="points_map" />
     </node>
+
+    <!--map server 2d map-->
+    <node pkg="map_server" type="map_server" name="map_server" output="screen"
+        args="$(arg map_file_2d)">
+          <param name="frame_id" value="map"/>
+    </node>
+    
     <!--ndt matching-->
     <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
       </include>
 
-    <!--pointcloud to laserscan -->
-    <include file="$(find autolabor_navigation_launch)/launch/pointcloud2_to_laserscan.launch">
-    </include>
-
-
+    <!--move base-->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/move_base_params.yaml" command="load" />
       <!--costmap-->
@@ -60,7 +65,7 @@
   </node>
   
      <!--launch rviz-->
-    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" /-->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" /> -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/navigation.rviz" />
 
      
