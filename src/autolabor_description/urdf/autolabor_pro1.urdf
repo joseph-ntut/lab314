@@ -2,7 +2,7 @@
 
   <link name="velodyne">
     <visual>
-      <origin xyz="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 1.5" />
       <geometry>
         <cylinder length="0.07" radius="0.05" />
       </geometry>
@@ -13,11 +13,11 @@
 
   <link name="imu_link">
     <visual>
-      <origin xyz="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 1.4" />
       <geometry>
-        <cylinder length="0.02" radius="0.03" />
+        <box size="0.035 0.035 0.015" />
       </geometry>
-      <material name="orange" />
+      <material name="black" />
     </visual>
   </link>
 
@@ -42,13 +42,13 @@
   <joint name="imu_link_joint" type="fixed">
     <parent link="base_link" />
     <child link="imu_link" />
-    <origin xyz="0 0 1.4" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
   <joint name="velodyne_link_joint" type="fixed">
     <parent link="base_link" />
     <child link="velodyne" />
-    <origin xyz="0 0 1.5" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
 

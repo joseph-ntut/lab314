@@ -6,7 +6,7 @@
 
     <param name="use_gui" value="$(arg gui)" />
     <arg name="use_gnss" default="false" />
-    <arg name="use_imu" default="false" />
+    <arg name="use_imu" default="true" />
     <arg name="use_odom" default="false" />
     <arg name="imu_upside_down" default="false" />
     <arg name="queue_size" default="10" />
@@ -15,7 +15,7 @@
     <arg name="get_height" default="false" />
     <arg name="use_local_transform" default="false" />
     <arg name="sync" default="false" />
-    <arg name="imu_topic" default="false" />
+    <arg name="imu_topic" default="/data_raw" />
     <arg name="use_voxel_grid_filter" default="false" />
 
     <rosparam>
@@ -40,12 +40,11 @@
       <param name="get_height" value="$(arg get_height)" />
       <param name="use_local_transform" value="$(arg use_local_transform)" />
       <param name="imu_topic" value="$(arg imu_topic)" />
-      <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+      <remap from="/filtered_points" to="/sync_drivers/points_raw" if="$(arg sync)" />
       <remap from="odom_pose" to="odom" />
     </node>
   
 
-    <node pkg="tf" type="static_transform_publisher" name="base_link_velodyne" args=" 0 0 1.5 0 0 0 base_link velodyne 1"/>
     <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 1"/>
    
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />

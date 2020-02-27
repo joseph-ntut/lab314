@@ -1,5 +1,5 @@
 <launch>
-    <arg name="debug"            default="true" />
+    <arg name="debug"            default="false" />
     <arg name="bag_file"         default="$(env HOME)/bag/localizer_test.bag" />
     <arg name="map_file_2d"      default="$(find autolabor_navigation_launch)/map/demo.yaml"/>
     <arg name="map_file_3d"      default="$(find autolabor_navigation_launch)/map/demo.pcd"/>
@@ -23,7 +23,7 @@
   
     </group>
 
-    <!--velodyne launch-->
+     <!--velodyne launch-->
     <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
         <arg name="frame_id" default="velodyne" />
         <arg name="device_ip" default="" />
@@ -33,7 +33,15 @@
         <arg name="gps_time" default="false" />
         <arg name="laserscan_resolution" default="0.007" />
     </include -->
-    <!--pcl ros 3d map-->
+
+     <!--imu -->
+    <node pkg="wit_imu_driver" type="wit_imu_driver" name="wit_imu_driver">
+      <param name="frame_id" value="imu_link"/>
+      <param name="device"   value="/dev/ttyUSB0"/>
+      <param name="baud"     value="9600"/>
+    </node>
+
+     <!--pcl ros 3d map-->
     <node pkg="pcl_ros" type="pcd_to_pointcloud" name="points_map_publish" output="screen"
        args="$(arg map_file_3d)">
           <param name="frame_id" value="world" />
@@ -41,17 +49,17 @@
           <remap from="cloud_pcd" to="points_map" />
     </node>
 
-    <!--map server 2d map-->
+     <!--map server 2d map-->
     <node pkg="map_server" type="map_server" name="map_server" output="screen"
         args="$(arg map_file_2d)">
           <param name="frame_id" value="map"/>
     </node>
     
-    <!--ndt matching-->
+     <!--ndt matching-->
     <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
       </include>
 
-    <!--move base-->
+     <!--move base-->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/move_base_params.yaml" command="load" />
       <!--costmap-->
@@ -62,11 +70,10 @@
       <!--path plan-->
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
-  </node>
+     </node>
   
-     <!--launch rviz-->
-    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_localizer)/rviz/ndt_matching.rviz" /> -->
+     <!--rviz-->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/navigation.rviz" />
 
-     
+  
   </launch>
