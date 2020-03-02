@@ -1,6 +1,6 @@
 <launch>
     <arg name="debug"            default="false" />
-    <arg name="bag_file"         default="$(env HOME)/bag/localizer_test.bag" />
+    <arg name="bag_file"         default="$(env HOME)/bag/lidar_imu.bag" />
     <arg name="map_file_2d"      default="$(find autolabor_navigation_launch)/map/demo.yaml"/>
     <arg name="map_file_3d"      default="$(find autolabor_navigation_launch)/map/demo.pcd"/>
 
@@ -24,7 +24,7 @@
     </group>
 
      <!--velodyne launch-->
-    <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
         <arg name="frame_id" default="velodyne" />
         <arg name="device_ip" default="" />
         <arg name="max_range" default="100.0" />
@@ -32,7 +32,7 @@
         <arg name="rpm" default="600.0" />
         <arg name="gps_time" default="false" />
         <arg name="laserscan_resolution" default="0.007" />
-    </include -->
+    </include>
 
      <!--imu -->
     <node pkg="wit_imu_driver" type="wit_imu_driver" name="wit_imu_driver">
@@ -50,8 +50,7 @@
     </node>
 
      <!--map server 2d map-->
-    <node pkg="map_server" type="map_server" name="map_server" output="screen"
-        args="$(arg map_file_2d)">
+    <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(arg map_file_2d)">
           <param name="frame_id" value="map"/>
     </node>
     
@@ -70,6 +69,7 @@
       <!--path plan-->
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
+      <remap from="/cmd_vel" to="/yocs_cmd_vel_mux/input/navigation"/>
      </node>
   
      <!--rviz-->
