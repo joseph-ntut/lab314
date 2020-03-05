@@ -67,8 +67,8 @@
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/local_costmap_params.yaml" command="load" />
       <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_costmap_params.yaml" command="load" />
       <!--path plan-->
-      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
-      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
+      <!-- <rosparam file="$(find autolabor_navigation_launch)/navigation_param/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
+      <rosparam file="$(find autolabor_navigation_launch)/navigation_param/teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/> -->
       <remap from="/cmd_vel" to="/yocs_cmd_vel_mux/input/navigation"/>
      </node>
   

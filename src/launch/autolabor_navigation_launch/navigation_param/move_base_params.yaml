@@ -46,4 +46,3 @@ aggressive_reset:
 # The radius away from the robot in meters outside which obstacles will be removed from the costmaps when they are reverted to the static map.
     reset_distance: 0.0
 
-

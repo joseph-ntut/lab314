@@ -7,7 +7,7 @@
     <param name="use_gui" value="$(arg gui)" />
     <arg name="use_gnss" default="false" />
     <arg name="use_imu" default="false" />
-    <arg name="use_odom" default="true" />
+    <arg name="use_odom" default="false" />
     <arg name="imu_upside_down" default="false" />
     <arg name="queue_size" default="10" />
     <arg name="offset" default="linear" />
@@ -45,7 +45,7 @@
     </node>
   
 
-    <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 1"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 1 0 0 0 world map 1"/>
    
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
