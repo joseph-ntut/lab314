@@ -1,0 +1,71 @@
+<launch>
+
+    <arg name="center_camera"              		default="center_t265"/>
+    <arg name="left_camera"              		default="left_d435i"/>
+    
+    <arg name="rtabmap_args"                    default="-- delete_db_on_start"/>	
+    <arg name="database_path"                   default="~/.ros/rtabmap_3floor222.db"/>
+    <arg name="cfg"                             default=""/>
+    <arg name="odom_topic"                      default="/$(arg center_camera)/odom/sample"/>
+
+    <arg name="tf_prefix_cameraC"               default="$(arg center_camera)"/>
+    <arg name="tf_prefix_cameraL"               default="$(arg left_camera)"/>
+
+    <!-- camera -->
+    <include file="$(find control_mode)/launch/camera/multiple_rs_camera.launch"> 			
+        <arg name="serial_no_cameraC"    			default="0000909212110738"/>
+        <arg name="serial_no_cameraL"    			default="843112072353"/>
+        <arg name="center_camera"              		default="$(arg center_camera)"/>
+        <arg name="left_camera"              		default="$(arg left_camera)"/>
+        <arg name="center_camera_enable"            default="true"/>
+        <arg name="left_camera_enable"              default="true"/>
+
+    </include>
+
+        <!-- imu filter 
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
+        <param name="use_mag"       type="bool"         value="false" />
+        <param name="_publish_tf"   type="bool"         value="false" />
+        <param name="_world_frame"  type="string"       value="enu" />
+        <remap from="/imu/data_raw" to="/$(arg center_camera)/imu"/>
+    </node>
+-->
+    <!-- sencer filter 
+    <node pkg="robot_localization" type="ukf_localization_node" name="ukf_se" clear_params="true">
+        <rosparam command="load" file="$(find control_mode)/config/autolabor_with_t265_ukf_parame.yaml" />
+            
+            <remap from="odometry/filtered" to="rtabmap/odometry/filtered"/>
+    </node>
+-->
+    <!--  Placeholder for output topic remapping
+            <remap from="accel/filtered" to=""/>
+            -->
+
+
+    <!-- visual slam -->
+    <include file="$(find control_mode)/launch/rtab/rtab_slam.launch">
+        <arg name="rtabmap_args"        value="$(arg rtabmap_args)"/>
+        <arg name="database_path"       value="$(arg database_path)"/>
+        <arg name="cfg"                 value="$(arg cfg)"/>
+        <arg name="depth_topic"         value="/$(arg left_camera)/aligned_depth_to_color/image_raw"/>
+        <arg name="rgb_topic"           value="/$(arg left_camera)/color/image_raw"/>
+        <arg name="camera_info_topic"   value="/$(arg left_camera)/color/camera_info"/>
+        <arg name="queue_size"          value="200"/>
+        <arg name="odom_topic"          value="$(arg odom_topic)"/>
+        <arg name="frame_id"            value="$(arg left_camera)_link"/>
+    </include>
+
+    <!-- tf 
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_$(arg tf_prefix_cameraC)" 
+            args="0 0 1 0 0 0 /odometry /$(arg tf_prefix_cameraC)_odom_frame 100"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="odometry_to_odom" 
+            args="0 0 0 0 0 0 /odometry /odom 100"/>
+-->
+    <node pkg="tf" type="static_transform_publisher" name="$(arg tf_prefix_cameraL)_to_odom" 
+            args="0.2 0 0.07 1.57 0 0 /$(arg tf_prefix_cameraC)_link  /$(arg tf_prefix_cameraL)_link 100"/>
+
+    <!-- rviz 
+    <node name="rviz" pkg="rviz" type="rviz" args="$(find control_mode)/config/rs_p3dx/rs_p3dx_navigation.rviz" />
+-->
+</launch>

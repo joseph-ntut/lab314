@@ -1,0 +1,71 @@
+<launch>
+    <arg name="serial_no_cameraL"    			default="923322072227"/> 			
+    <arg name="serial_no_cameraC"    			default=""/>
+    <arg name="serial_no_cameraR"    			default="843112072353"/>
+
+    <arg name="left_camera"              		default=""/>		
+    <arg name="center_camera"              		default=""/>
+    <arg name="right_camera"              		default=""/>
+
+    <arg name="left_camera_enable"              default="false"/>		
+    <arg name="center_camera_enable"            default="false"/>
+    <arg name="right_camera_enable"             default="false"/>
+
+    <arg name="tf_prefix_cameraL"         default="$(arg left_camera)"/>
+    <arg name="tf_prefix_cameraC"         default="$(arg center_camera)"/>
+    <arg name="tf_prefix_cameraR"         default="$(arg right_camera)"/>
+
+
+    <group if="$(arg left_camera_enable)" ns="$(arg left_camera)">
+        <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+	    <arg name="device_type"             value="d435i"/>
+            <arg name="external_manager"        value="false"/>
+            <arg name="manager"                 value="realsense2_camera_manager"/>
+            <arg name="serial_no"               value="$(arg serial_no_cameraL)"/>
+            <arg name="tf_prefix"		        value="$(arg tf_prefix_cameraL)"/>
+            <arg name="initial_reset"           value="false"/>
+            <arg name="align_depth"             value="true"/>
+            <arg name="filters"                 value="pointcloud"/>
+            <arg name="color_width"             value="640"/>
+            <arg name="color_height"            value="480"/>
+            <arg name="depth_width"             value="640"/>
+            <arg name="depth_height"            value="480"/>
+            <arg name="clip_distance"           value="-2"/>
+        </include>
+    </group>
+
+    <group if="$(arg center_camera_enable)"  ns="$(arg center_camera)">
+        <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+            <arg name="device_type"             value="t265"/>
+	    <arg name="external_manager"        value="false"/>
+            <arg name="manager"                 value="realsense2_camera_manager"/>
+            <arg name="serial_no"               value="$(arg serial_no_cameraC)"/>
+            <arg name="tf_prefix"         	    value="$(arg tf_prefix_cameraC)"/>
+            <arg name="initial_reset"           value="false"/>
+            <arg name="enable_fisheye1"         value="false"/>
+            <arg name="enable_fisheye2"         value="false"/>
+            <arg name="topic_odom_in"           value="odom_in"/>
+            <arg name="calib_odom_file"         value=""/>
+            <arg name="linear_accel_cov"        value="0.01"/>
+            <arg name="unite_imu_method"        value="linear_interpolation"/>
+        </include>  
+    </group>
+
+    <group if="$(arg right_camera_enable)" ns="$(arg right_camera)">
+        <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+            <arg name="device_type"             value="d435i"/>
+            <arg name="external_manager"        value="false"/>
+            <arg name="manager"                 value="realsense2_camera_manager"/>
+            <arg name="serial_no"               value="$(arg serial_no_cameraR)"/>
+            <arg name="tf_prefix"		        value="$(arg tf_prefix_cameraR)"/>
+            <arg name="initial_reset"           value="false"/>
+            <arg name="align_depth"             value="true"/>
+            <arg name="filters"                 value="pointcloud"/>
+            <arg name="color_width"             value="640"/>
+            <arg name="color_height"            value="480"/>
+            <arg name="depth_width"             value="640"/>
+            <arg name="depth_height"            value="480"/>
+            <arg name="clip_distance"           value="-2"/>
+        </include>
+    </group>
+</launch>
