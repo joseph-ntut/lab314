@@ -13,14 +13,28 @@ echo "                      Installation complete"
 echo "***********************************************************************"
 
 echo "***********************************************************************"
-echo "                      Installing nema-msgs"
-sudo apt-get install ros-melodic-nema-msgs
+echo "                      Installing nmea-msgs"
+sudo apt-get install ros-melodic-nmea-msgs
 echo "                      Installation complete"
 echo "***********************************************************************"
 
 echo "***********************************************************************"
 echo "                      Installing hector-map-tools"
 sudo apt-get install ros-melodic-hector-map-tools
+echo "                      Installation complete"
+echo "***********************************************************************"
+
+echo "***********************************************************************"
+echo "                      Installing qt4"
+sudo apt-get install qt4-qmake
+sudo apt-get install qt4-bin-dbg
+sudo apt-get install qt4-default
+echo "                      Installation complete"
+echo "***********************************************************************"
+
+echo "***********************************************************************"
+echo "                      Installing random-numbers"
+sudo apt-get install ros-melodic-random-numbers
 echo "                      Installation complete"
 echo "***********************************************************************"
 
@@ -66,7 +80,7 @@ sudo apt-get install ros-melodic-ddynamic-reconfigure
 echo "                      Installation complete"
 echo "***********************************************************************"
 
-echo "***********************************************************************"
+'echo "***********************************************************************"
 echo "                      Installing rtabmap"
 sudo apt-get install ros-melodic-rtabmap-ros
 sudo apt-get remove ros-melodic-rtabmap ros-melodic-rtabmap-ros
@@ -97,7 +111,7 @@ sudo apt-get install librealsense2-utils
 sudo apt-get install librealsense2-dev
 sudo apt-get install librealsense2-dbg
 echo "                      Installation complete"
-echo "***********************************************************************"
+echo "***********************************************************************"'
 
 
 
