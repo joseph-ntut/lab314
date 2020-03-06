@@ -1,0 +1,80 @@
+<launch>
+
+    <arg name="center_camera"              		default="center_t265"/>
+    <arg name="left_camera"              		default="left_d435i"/>
+    
+    <arg name="rtabmap_args"                    default="-- delete_db_on_start"/>	
+    <arg name="database_path"                   default="~/.ros/floor3-database.db"/>
+    <arg name="cfg"                             default=""/>
+    <arg name="odom_topic"                      default="/$(arg center_camera)/odom/sample"/>
+
+    <arg name="tf_prefix_cameraC"               default="$(arg center_camera)"/>
+    <arg name="tf_prefix_cameraL"               default="$(arg left_camera)"/>
+
+
+    <!-- camera node -->
+    <include file="$(find mynt_eye_ros_wrapper)/launch/mynteye.launch">
+
+    </include>
+
+    
+
+    <!-- camera node -->
+    <include file="$(find control_mode)/launch/camera/multiple_rs_camera.launch"> 			
+        <arg name="serial_no_cameraC"    			default="0000909212110738"/>
+        <arg name="serial_no_cameraL"    			default="843112072353"/>
+        <arg name="center_camera"              		default="$(arg center_camera)"/>
+        <arg name="left_camera"              		default="$(arg left_camera)"/>
+        <arg name="center_camera_enable"            default="true"/>
+        <arg name="left_camera_enable"              default="true"/>
+    </include>
+
+
+
+    <!-- localization node 
+    <include file="$(find control_mode)/launch/rtab/rtab_slam.launch">
+        <arg name="localization"        value="true"/>
+        <arg name="rtabmap_args"        value=""/>
+        <arg name="database_path"       value="$(arg database_path)"/>
+        <arg name="cfg"                 value="$(arg cfg)"/>
+        <arg name="depth_topic"         value="/$(arg left_camera)/aligned_depth_to_color/image_raw"/>
+        <arg name="rgb_topic"           value="/$(arg left_camera)/color/image_raw"/>
+        <arg name="camera_info_topic"   value="/$(arg left_camera)/color/camera_info"/>
+        <arg name="queue_size"          value="200"/>
+        <arg name="odom_topic"          value="$(arg odom_topic)"/>
+        <arg name="frame_id"            value="$(arg left_camera)_link"/>
+
+    </include>
+-->
+
+    <!-- planner node -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="global_costmap/global_frame"      value="map"/>
+    <param name="global_costmap/robot_base_frame"  value="t265_pose_frame"/>
+    <param name="local_costmap/robot_base_frame"   value="t265_pose_frame"/>
+    <param name="local_costmap/global_frame"       value="t265_odom_frame"/>
+    <remap from="/map"                             to="/rtabmap/grid_map"/>
+    <remap from="/cmd_vel"                         to="/yocs_cmd_vel_mux/input/navigation"/>
+    
+    <rosparam file="$(find control_mode)/config/autolabor/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find control_mode)/config/autolabor/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find control_mode)/config/autolabor/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find control_mode)/config/autolabor/global_costmap_params.yaml" command="load" />
+
+    <rosparam file="$(find control_mode)/config/autolabor/move_base_params.yaml" command="load" />
+    <rosparam file="$(find control_mode)/config/autolabor/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find control_mode)/config/autolabor/global_planner_params.yaml" command="load" />
+    </node>
+
+
+    <!-- rviz 
+    <node name="rviz" pkg="rviz" type="rviz" args="$(find control_mode)/config/rs_p3dx/rs_p3dx_navigation.rviz" />
+-->
+
+    <node pkg="tf" type="static_transform_publisher" name="$(arg tf_prefix_cameraC)_to_$(arg tf_prefix_cameraL)" 
+            args="0.2 0 0.07 1.57 0 0 /$(arg tf_prefix_cameraC)_link  /$(arg tf_prefix_cameraL)_link 100"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="$(arg tf_prefix_cameraL)_to_mynteye_link" 
+            args="0 0 0.07 0 0 0 /$(arg tf_prefix_cameraC)_link /mynteye_link 100"/>
+
+</launch>

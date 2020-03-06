@@ -1,0 +1,86 @@
+<launch>
+    <arg name="model" />
+    <arg name="gui" default="false" />
+
+    <param name="robot_description" textfile="$(find autolabor_description)/urdf/autolabor_pro1.urdf" />
+
+    <param name="use_gui" value="$(arg gui)" />
+    <arg name="use_gnss" default="false" />
+    <arg name="use_imu" default="false" />
+    <arg name="use_odom" default="false" />
+    <arg name="imu_upside_down" default="false" />
+    <arg name="queue_size" default="10" />
+    <arg name="offset" default="linear" />
+    <arg name="use_openmp" default="false" />
+    <arg name="get_height" default="false" />
+    <arg name="use_local_transform" default="false" />
+    <arg name="sync" default="false" />
+    <arg name="imu_topic" default="" />
+    <arg name="use_voxel_grid_filter" default="false" />
+
+    <rosparam>
+      localizer: velodyne
+      tf_x: 0
+      tf_y: 0
+      tf_z: 1.5
+      tf_roll: 0
+      tf_pitch: 0
+      tf_yaw: 0
+    </rosparam>
+
+    <!--ndt matching-->
+    <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
+      <param name="use_gnss" value="$(arg use_gnss)" />
+      <param name="use_imu" value="$(arg use_imu)" />
+      <param name="use_odom" value="$(arg use_odom)" />
+      <param name="imu_upside_down" value="$(arg imu_upside_down)" />
+      <param name="queue_size" value="$(arg queue_size)" />
+      <param name="offset" value="$(arg offset)" />
+      <param name="use_openmp" value="$(arg use_openmp)" />
+      <param name="get_height" value="$(arg get_height)" />
+      <param name="use_local_transform" value="$(arg use_local_transform)" />
+      <param name="imu_topic" value="$(arg imu_topic)" />
+      <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+      <remap from="odom_pose" to="odom" />
+    </node>
+  
+
+    <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 1 0 0 0 world map 1"/>
+   
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+    <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input"  to="points_raw" />
+      <remap from="~output" to="filtered_points" />
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: -10
+        filter_limit_max: 10
+        filter_limit_negative: False
+        leaf_size: 0.5
+      </rosparam>
+    </node>
+    <!--give ndt matching real time location-->
+    <node pkg="rostopic" type="rostopic" name="ndt_config"
+    args="pub -r 1 /config/ndt autoware_msgs/ConfigNDT
+    {'header: {
+      seq: 0,
+      stamp: {secs: 0, nsecs: 0},
+      frame_id: 'config'},
+    x: 0,
+    y: 0,
+    z: 0,
+    roll: 0,
+    pitch: 0,
+    yaw: 0,
+    use_predict_pose: false,
+    error_threshold: 1,
+    resolution: 1,
+    step_size: 0.1,
+    trans_epsilon: 0.01,
+    max_iterations: 30
+    '} "/>
+
+</launch>

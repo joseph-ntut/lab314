@@ -1,0 +1,8 @@
+<launch>
+<node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
+    args="$(env HOME)/map/test.pcd">
+<param name="frame_id" value="map" />
+<param name="interval" value="0.1" /> 
+  <remap from="cloud_pcd" to="points_map" />
+</node>
+</launch>
