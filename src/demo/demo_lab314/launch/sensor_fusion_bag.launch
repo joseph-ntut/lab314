@@ -1,0 +1,45 @@
+<launch>
+    <arg name="center_camera"              		default="center_t265"/>
+    <arg name="left_camera"              		default="left_d435i"/>
+    
+    <arg name="odom_topic"                      default="/$(arg center_camera)/odom/sample"/>
+    <arg name="depth_topic"                     defaule="/$(arg left_camera)/aligned_depth_to_color/image_raw"/>
+    <arg name="rgb_topic"                       defaule="/$(arg left_camera)/color/image_raw"/>
+    <arg name="camera_info_topic"               defaule="/$(arg left_camera)/color/camera_info"/>
+
+    <!-- camera -->
+    <include file="$(find control_mode)/launch/camera/multiple_rs_camera.launch"> 			
+        <arg name="serial_no_cameraC"    			default="0000909212110738"/>
+        <arg name="serial_no_cameraL"    			default="843112072353"/>
+        <arg name="center_camera"              		default="$(arg center_camera)"/>
+        <arg name="left_camera"              		default="$(arg left_camera)"/>
+        <arg name="center_camera_enable"            default="true"/>
+        <arg name="left_camera_enable"              default="true"/>
+
+    </include>
+
+    <!-- velodyne launch -->
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="frame_id" default="velodyne" />
+        <arg name="device_ip" default="" />
+        <arg name="max_range" default="100.0" />
+        <arg name="min_range" default="0.4" />
+        <arg name="rpm" default="600.0" />
+        <arg name="gps_time" default="false" />
+        <arg name="laserscan_resolution" default="0.007" />
+    </include>
+
+    <!-- imu -->
+    <node pkg="wit_imu_driver" type="wit_imu_driver" name="wit_imu_driver">
+      <param name="frame_id" value="imu_link"/>
+      <param name="device"   value="/dev/ttyUSB0"/>
+      <param name="baud"     value="9600"/>
+    </node>
+
+    <!-- bag -->
+
+    <node pkg="rosbag"  type="record"   name="record"   output="screen"
+            arg="/points_raw /scan /odom /data_raw $(arg odom_topic) $(arg depth_topic) $(arg rgb_topic) $(arg camera_info_topic)"/>
+
+
+</launch>
