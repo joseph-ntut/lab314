@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="ddt"    type="ddt_node"   name="gg" output="screen">
+        <param name="pcd_file"  type="str"              value="/home/pev314/cloud.pcd"/>
+    </node>
+
+</launch>
