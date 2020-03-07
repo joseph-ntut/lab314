@@ -27,7 +27,6 @@ echo "***********************************************************************"
 echo "***********************************************************************"
 echo "                      Installing qt4"
 sudo apt-get install qt4-qmake
-sudo apt-get install qt4-bin-dbg
 sudo apt-get install qt4-default
 echo "                      Installation complete"
 echo "***********************************************************************"
