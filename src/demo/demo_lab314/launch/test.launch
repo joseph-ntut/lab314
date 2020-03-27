@@ -1,0 +1,19 @@
+<launch>
+     <!-- velodyne launch -->
+     <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="frame_id" default="velodyne" />
+        <arg name="device_ip" default="" />
+        <arg name="max_range" default="100.0" />
+        <arg name="min_range" default="0.4" />
+        <arg name="rpm" default="600.0" />
+        <arg name="gps_time" default="false" />
+        <arg name="laserscan_resolution" default="0.007" />
+    </include>
+
+    <!-- imu -->
+    <node pkg="wit_imu_driver" type="wit_imu_driver" name="wit_imu_driver">
+      <param name="frame_id" value="imu_link"/>
+      <param name="device"   value="/dev/ttyUSB0"/>
+      <param name="baud"     value="9600"/>
+    </node>
+</launch>

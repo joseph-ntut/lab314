@@ -3,6 +3,7 @@
 
 <launch>
   <remap from="velodyne_points" to="points_raw"/>
+  <remap from="/scan" to="/velodyne_scan" />
 
   <!-- declare arguments with default values -->
   <arg name="calibration" default="$(find velodyne_pointcloud)/params/VLP16db.yaml"/>

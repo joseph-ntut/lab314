@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wall -std=c++11  -rdynamic CMakeFiles/ydlidar_test.dir/test.cpp.o  -o ../ydlidar_test  -L/home/joseph/lab314/src/sensor/build -Wl,-rpath,/home/joseph/lab314/src/sensor/build ../libydlidar_driver.so -lrt -lpthread 
