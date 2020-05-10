@@ -93,10 +93,6 @@ void cloud_to_map(  pcl::PointCloud<pcl::PointXYZ>::Ptr main_cloud, nav_msgs::Oc
     }
 
 }
-                    
-
-
-
 int main(int argc, char **argv){
 
     ros::init(argc, argv, "visual_3d_map");

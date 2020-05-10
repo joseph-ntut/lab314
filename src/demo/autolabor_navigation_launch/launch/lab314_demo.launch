@@ -50,9 +50,9 @@
     </node>
 
      <!--map server 2d map-->
-    <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(arg map_file_2d)">
+    <!-- <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(arg map_file_2d)">
           <param name="frame_id" value="map"/>
-    </node>
+    </node> -->
     
      <!--ndt matching-->
     <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
