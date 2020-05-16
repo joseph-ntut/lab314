@@ -1,0 +1,7 @@
+<launch>
+ <node pkg="map_tool"    type="point_publisher"   name="point_finder" output="screen">
+   <param name="path"       value="/home/joseph/param/"/>
+   <param name="map_frame"  value="map"/>
+   <param name="subscribe_topic" value="third_floor"/>
+ </node>
+</launch>

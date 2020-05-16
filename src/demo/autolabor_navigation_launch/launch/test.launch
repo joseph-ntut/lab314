@@ -1,0 +1,37 @@
+<launch>
+    <arg name="debug"            default="true" />
+    <arg name="bag_file"         default="$(env HOME)/bag/points_raw_test1.bag" />
+    <arg name="map_file_3d"      default="$(find autolabor_navigation_launch)/map/demo.pcd"/>
+
+  
+    <group if="$(arg debug)">
+      <param name="use_sim_time" value="true"/>
+      <!-- Static transtorm -->
+       
+      <node pkg="rosbag" type="play" name="rosbag_play_node"
+          args="--clock $(arg bag_file)" >
+      </node>
+    <!--hector server traking path-->
+      <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">
+        <remap from="trajectory" to="autolabor_odom" />
+        <param name="target_frame_name" type="string" value="/map" />
+        <param name="source_frame_name" type="string" value="/base_link" />
+        <param name="trajectory_update_rate" value="10" />
+        <param name="trajectory_publish_rate" value="10" />
+      </node>
+    </group>
+     <!--pcl ros 3d map-->
+    <node pkg="pcl_ros" type="pcd_to_pointcloud" name="points_map_publish" output="screen"
+       args="$(arg map_file_3d)">
+          <param name="frame_id" value="map" />
+          <param name="interval" value="0.5" /> 
+          <remap from="cloud_pcd" to="points_map" />
+    </node>  
+     <!--ndt matching-->
+    <include file="$(find autolabor_navigation_launch)/launch/localization_lab314.launch">
+      </include>
+     <!--rviz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/navigation.rviz" />
+
+  
+  </launch>

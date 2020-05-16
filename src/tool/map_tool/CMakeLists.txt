@@ -10,6 +10,7 @@ project(map_tool)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   geometry_msgs
+  std_msgs
 )
 
 link_directories(/usr/local/lib)
@@ -137,8 +138,11 @@ include
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(point_finder src/point_finder.cpp)
+add_executable(point_finder src/point_finder.cpp)
 target_link_libraries(point_finder ${catkin_LIBRARIES} yaml-cpp)
+
+add_executable(point_publisher src/point_publisher.cpp)
+target_link_libraries(point_publisher ${catkin_LIBRARIES} yaml-cpp)
 
 
 ## Rename C++ executable without prefix
