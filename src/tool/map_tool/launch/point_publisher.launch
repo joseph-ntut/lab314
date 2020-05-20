@@ -3,5 +3,8 @@
    <param name="path"       value="/home/joseph/param/"/>
    <param name="map_frame"  value="map"/>
    <param name="subscribe_topic" value="third_floor"/>
+   <param name="matching_pose_topic" value="ndt_pose"/>
+   <param name="wating_time" value="1500"/>
+
  </node>
 </launch>
