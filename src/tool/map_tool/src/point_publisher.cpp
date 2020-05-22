@@ -13,11 +13,11 @@ using namespace std;
 double pose_x,pose_y,pose_z,orientation_x,orientation_y,orientation_z,orientation_w;
 string yaml_file_,load_file_,subscribe_topic_,pose_,frame;
 string frame_id_,folder_path_,postion_,matching_pose_topic_;
-string delay("done");
+string delay="done";
 int start = 0 ;
 int wating_time_;
-geometry_msgs::PoseStamped::ConstPtr hold_local_pose_;
-geometry_msgs::PoseWithCovarianceStamped::ConstPtr hold_publish_pose;
+geometry_msgs::PoseStamped hold_local_pose_;
+geometry_msgs::PoseWithCovarianceStamped hold_publish_pose_;
 
 
 void getParameters(ros::NodeHandle n_private)
@@ -25,6 +25,9 @@ void getParameters(ros::NodeHandle n_private)
   n_private.param<string>("map_frame", frame_id_, "map");
   n_private.param<string>("folder_path", folder_path_, "/home/joseph/param/");
   n_private.param<string>("subscribe_topic", postion_, "");
+  n_private.param<string>("matching_pose_topic", matching_pose_topic_, "ndt_pose");
+  n_private.param<int>("wating_time", wating_time_, 1500);
+
 }
 
  void chatterCallback(const std_msgs::String::ConstPtr& msg)
@@ -38,9 +41,7 @@ void getfile (string get_path_,string map_name_)
   load_file_= get_path_ ;
   load_file_+=map_name_;
   load_file_+=".yaml";
-  cout<<load_file_;
-  char* chr = strdup(load_file_.c_str());
-  YAML::Node data_pose = YAML::LoadFile(chr);
+  YAML::Node data_pose = YAML::LoadFile(load_file_);
     try
     {
       pose_x = data_pose["pose"]["position"]["x"].as<double>() ;
@@ -61,10 +62,8 @@ void getfile (string get_path_,string map_name_)
 }
 void pose_publish(ros::Publisher &pub  )
 {
-  ros::Time currentTime = ros::Time::now();
   geometry_msgs::PoseWithCovarianceStamped pose_publish;
-  pose_publish.header.stamp = currentTime;
-  pose_publish.header.seq = start;
+  pose_publish.header.stamp = ros::Time::now();
   pose_publish.pose.pose.position.x = pose_x;
   pose_publish.pose.pose.position.y = pose_y;
   pose_publish.pose.pose.position.z = pose_z;
@@ -77,31 +76,38 @@ void pose_publish(ros::Publisher &pub  )
   pub.publish(pose_publish);
   ROS_INFO("Publish pose to initial pose finish ");
 }
-void pose_checking(const geometry_msgs::PoseStamped::ConstPtr&feedback ,const geometry_msgs::PoseWithCovarianceStamped::ConstPtr&output)
+void pose_checking(const geometry_msgs::PoseStamped&feedback ,const geometry_msgs::PoseWithCovarianceStamped&output)
 {
   delay = "undone";
-  geometry_msgs::PoseStamped::ConstPtr feedback_1;
+  geometry_msgs::PoseStamped feedback_1;
   while(delay == "done")
   {
     sleep(wating_time_);
-    feedback_1 = feedback;
+    feedback_1.pose.position = feedback.pose.position;
     delay = "done";
   }
-  if(abs(feedback->pose.position.x - feedback_1->pose.position.x)<=5)
-    if(abs(feedback->pose.position.y - feedback_1->pose.position.y)<=5)
-    {
+  if(abs(feedback_1.pose.position.x - output.pose.pose.position.x)<=5)
+    if(abs(feedback_1.pose.position.y - output.pose.pose.position.y)<=5)
+      if(abs(feedback_1.pose.position.z - output.pose.pose.position.z)<=5)
       {
-        start = 0;
+        {
+          {
+            start = 0;
+          }
+        }
       }
-    }
 }
 void initial_pose_Scratchpad(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& input)
 {
-  hold_publish_pose = input; 
+  hold_publish_pose_.pose.pose.position=input->pose.pose.position;
+  hold_publish_pose_.pose.pose.orientation=input->pose.pose.orientation;
+
 }
 void pose_Scratchpad(const geometry_msgs::PoseStamped::ConstPtr&hold)
 {
-  hold_local_pose_ = hold;
+  hold_local_pose_.pose.position = hold->pose.position;
+  hold_local_pose_.pose.orientation = hold->pose.orientation;
+
 }
 int main (int argc,char **argv)
 {
@@ -118,12 +124,10 @@ int main (int argc,char **argv)
    //publish pose to initial pose
     ros::Publisher pose_pub_ = n.advertise<geometry_msgs::PoseWithCovarianceStamped >("initialpose", 1000, true);
 
-/*     pose_publish(pose_pub_);
- */
     while (start == 1)
     {
       pose_publish(pose_pub_);
-      pose_checking(hold_local_pose_,hold_publish_pose);
+      pose_checking(hold_local_pose_,hold_publish_pose_);
     }
     ros::spin();
 
