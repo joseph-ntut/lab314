@@ -1,0 +1,12 @@
+map_frame: map
+point_name: 4
+pose:
+  position:
+    x: 37.6920280456543
+    y: -2.140738487243652
+    z: 0
+  orientation:
+    x: 0
+    y: 0
+    z: 0.9947514809857889
+    w: 0.1023205310608757

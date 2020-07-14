@@ -1,8 +1,20 @@
 <launch>
-<node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish" output="screen"
-    args="$(env HOME)/map/test.pcd">
-<param name="frame_id" value="map" />
-<param name="interval" value="0.1" /> 
-  <remap from="cloud_pcd" to="points_map" />
+<node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish_2" output="screen"
+    args="$(find autolabor_navigation_launch)/map/20200528_1f_1.pcd">
+    <param name="frame_id" value="map" />
+    <param name="interval" value="0.4" /> 
+    <remap from="cloud_pcd" to="points_map_1" />
 </node>
+
+<node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_map_publish_1" output="screen"
+    args="$(find autolabor_navigation_launch)/map/20200528_2f.pcd">
+    <param name="frame_id" value="world" />
+    <param name="interval" value="0.4" /> 
+    <remap from="cloud_pcd" to="points_map_2" />
+</node>
+
+  <node pkg="tf" type="static_transform_publisher" name="world_map" args=" 0 0 0 0 0 0 world map 1"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_navigation_launch)/rviz/pcd.rviz" />
+
 </launch>

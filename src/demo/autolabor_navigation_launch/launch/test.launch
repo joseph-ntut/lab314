@@ -1,5 +1,5 @@
 <launch>
-    <arg name="debug"            default="true" />
+    <arg name="debug"            default="false" />
     <arg name="bag_file"         default="$(env HOME)/bag/points_raw_test1.bag" />
     <arg name="map_file_3d"      default="$(find autolabor_navigation_launch)/map/demo.pcd"/>
 

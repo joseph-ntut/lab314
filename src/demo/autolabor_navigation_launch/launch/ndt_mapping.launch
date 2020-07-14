@@ -1,6 +1,6 @@
 <launch>
   <arg name="debug"            default="true" />
-  <arg name="bag_file"         default="$(env HOME)/bag/test_slow.bag" />
+  <arg name="bag_file"         default="$(env HOME)/bag/first_floor.bag" />
   
   <group if="$(arg debug)">
     <param name="use_sim_time" value="true"/>
@@ -8,6 +8,7 @@
        
     <node pkg="rosbag" type="play" name="rosbag_play_node"
           args="--clock $(arg bag_file)" >
+    <remap from="velodyne_points" to="points_raw" />
     </node>
   
     <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_node">

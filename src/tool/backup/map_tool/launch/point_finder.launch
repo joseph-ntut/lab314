@@ -1,0 +1,5 @@
+<launch>
+ <node pkg="map_tool"    type="point_finder"   name="point_finder" output="screen">
+    <param name="path"  value="/home/joseph/param/"/>
+ </node>
+</launch>

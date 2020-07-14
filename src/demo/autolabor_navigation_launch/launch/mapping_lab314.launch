@@ -3,13 +3,13 @@
     <arg name="model" />
     <arg name="gui" default="false" />
     
-    <param name="robot_description" textfile="$(find autolabor_description)/urdf/autolabor_pro1.urdf" />
+    <param name="robot_description" textfile="$(find autolabor_description)/urdf/autolabor.urdf" />
 
     <arg name="method_type" default="0" /> <!-- pcl_generic=0, pcl_anh=1, pcl_anh_gpu=2, pcl_openmp=3 -->
-    <arg name="use_odom" default="true" />
-    <arg name="use_imu" default="true" />
+    <arg name="use_odom" default="false" />
+    <arg name="use_imu" default="false" />
     <arg name="imu_upside_down" default="false" />
-    <arg name="imu_topic" default="/data_raw" />
+    <arg name="imu_topic" default="/xsens_imu_odom/imu/data" />
     <arg name="incremental_voxel_update" default="false" />
      
     <rosparam>

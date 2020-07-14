@@ -1,0 +1,92 @@
+<?xml version='1.0'?>
+
+<!-- urdf: unified robot description format -->
+
+<robot name="autolabor">
+
+  <!-- materials color description -->
+  <!-- <xacro:include filename="$(find autolabor_description)/urdf/materials.xacro" /> -->
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+
+  <!-- Link Define -->
+  <link name="base_link">
+    <visual>
+      <!-- rpy: roll, pitch, yaw ; xyz; x, y, z position -->
+      <origin rpy="1.57075 0 3.1415" xyz="0.2 -0.725 0"/>
+      <!-- describe robot's appearance -->
+      <geometry>
+        <mesh filename="package://autolabor_description/meshes/body.dae" />
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="velodyne">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <cylinder length="0.038" radius="0.052" />
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="ydlidar_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <cylinder length="0.01" radius="0.01" />
+      </geometry>
+      <!-- <material name="gray" /> -->
+    </visual>
+  </link>
+
+  <link name="xsens_imu_odom_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.035 0.035 0.015" />
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+  <link name="wit_imu_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.035 0.035 0.015" />
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+  <joint name="wit_imu_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="wit_imu_link" />
+    <origin xyz="-0.232 0 1.240" rpy="0 0 0" />
+  </joint>
+
+  <joint name="xsens_imu_odom_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="xsens_imu_odom_link" />
+    <origin xyz="-0.232 0 0.765" rpy="0 0 0" />
+  </joint>
+
+  <joint name="velodyne_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="velodyne" />
+    <origin xyz="-0.232 0 1.329" rpy="0 0 -0.03" />
+  </joint>
+
+  <joint name="ydlidar_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="ydlidar_link" />
+    <origin xyz="0.12 0 0.288" rpy="0 0 0" />
+  </joint>
+
+
+
+
+</robot>
